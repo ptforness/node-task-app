@@ -39,10 +39,11 @@ router.post('/users', async (req, res) => {
 router.post('/login', async (req, res) => {
     try {
         const user = await User.findByCredentials(req.body.email, req.body.password);
+        
         const token = await user.generateAuthToken();
         res.send({ user, token }); // Success
     } catch (e) {
-        res.status(500).send(e.message); // Server Error
+        res.status(400).send({ error: 'Invalid Credentials.'} ); // Server Error
     }
 });
 
